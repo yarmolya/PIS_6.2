@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GitHub Repositories</title>
+  <style>
+    body {
+        width: 100%;
+        font-size: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    h2 {
+        text-align: center;
+    }
+    #repositories {
+        margin-left: 26%;
+        color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <h2>Репозіторії студентки Ярмоленко Ольги</h2>
+  <div id="repositories"></div>
+  <script>
+    function fetchRepositories() {
+      fetch('https://api.github.com/users/yarmolya/repos')
+        .then(response => response.json())
+        .then(data => {
+          displayRepositories(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function displayRepositories(repositories) {
+      const repositoriesDiv = document.getElementById('repositories');
+
+      if (repositories.length === 0) {
+        repositoriesDiv.textContent = 'No repositories found.';
+        return;
+      }
+
+      const ul = document.createElement('ul');
+
+      repositories.forEach(repository => {
+        const li = document.createElement('li');
+        li.textContent = repository.name;
+        ul.appendChild(li);
+      });
+
+      repositoriesDiv.appendChild(ul);
+    }
+
+    window.addEventListener('load', fetchRepositories);
+  </script>
+</body>
+</html>
